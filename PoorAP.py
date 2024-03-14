@@ -107,6 +107,3 @@ while True:
     socket_fun(c)
     time.sleep_ms(500)
     c.close()
-
-# t = Timer(1)
-# t.init(period=50, mode=Timer.PERIODIC, callback=socket_fun)

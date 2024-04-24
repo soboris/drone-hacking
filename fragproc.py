@@ -24,7 +24,7 @@ class Packet(object):
         ins = None
         fragments.sort()
         last = fragments[len(fragments)-1]
-        if last[2] - last[3] != 1:
+        if len(fragments) != last[2] or last[2] - last[3] != 1:
             return None
         for fragment in fragments:
             if len(fragments) != fragment[2]:

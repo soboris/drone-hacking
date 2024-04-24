@@ -22,20 +22,17 @@ class Packet(object):
         data = b''
         cla = None
         ins = None
-        count = None
         fragments.sort()
         last = fragments[len(fragments)-1]
         if last[2] - last[3] != 1:
             return None
         for fragment in fragments:
+            if len(fragments) != fragment[2]:
+                break
             if cla and ins:
                 if cla != fragment[0] or ins != fragment[1]:
                     raise Exception("ERROR")
             cla = fragment[0]
             ins = fragment[1]
-            if count:
-                if count != fragment[2]:
-                    break
-            count = fragment[2]
             data += fragment[4:]
         return cls(bytes([cla]) + bytes([ins]) + data)

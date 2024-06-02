@@ -5,6 +5,13 @@ class Bin(object):
         self.bin = []
 
     def putFragment(self, frag):
+        for item in self.bin:
+            duplicated = True
+            for i in range(4):
+                if item[i] != frag[i]:
+                    duplicated = False
+            if duplicated:
+                self.bin.remove(item)
         self.bin.append(frag)
 
     def getFragments(self):

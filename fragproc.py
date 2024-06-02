@@ -17,6 +17,9 @@ class Packet(object):
             fragments.append(header + self.data[i*LEN_P:(i+1)*LEN_P])
         return fragments
 
+    def bytes(self):
+        return self.cla + self.ins + self.data
+
     @classmethod
     def reassembly(cls, fragments):
         data = b''

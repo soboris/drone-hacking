@@ -21,7 +21,11 @@ class Bin(object):
         self.bin.clear()
 
     def checkPacket(self):
-        packet = Packet.reassembly(self.getFragments())
-        if packet:
+        try:
+            packet = Packet.reassembly(self.getFragments())
+            if packet:
+                self.clearBin()
+            return packet.bytes()
+        except:
             self.clearBin()
-        return packet.bytes()
+            raise Exception("ERROR")

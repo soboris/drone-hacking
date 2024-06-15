@@ -43,19 +43,27 @@ def verifyToken(req, res):
             return True
     return False
 
-def syncCounter():
+def syncCounter(encrypted=False):
     counter = uos.urandom(counter_size)
     key = crypto.getKey()
-    iv = crypto.getIV()
-    seq = crypto.encrypt(counter, key=key, iv=iv)
-    return int.from_bytes(counter, 'big'), CLA + INS['sync'] + iv + seq
+    if encrypted:
+        iv = crypto.getIV()
+        seq = crypto.encrypt(counter, key=key, iv=iv)
+        return int.from_bytes(counter, 'big'), CLA + INS['sync'] + iv + seq
+    else:
+        seq = bytes([_a ^ _b for _a, _b in zip(counter, key)])
+        return int.from_bytes(counter, 'big'), CLA + INS['sync'] + seq
 
-def retCounter(sync):
+def retCounter(sync, encrypted=False):
     if bytes([sync[0]]) == CLA and bytes([sync[1]]) == INS['sync']:
-        seq = sync[2+crypto.BLOCK:]
         key = crypto.getKey()
-        iv = sync[2:2+crypto.BLOCK]
-        counter = crypto.decrypt(seq, key, iv).split(b'\x00', 1)[0]
+        if encrypted:
+            seq = sync[2+crypto.BLOCK:]
+            iv = sync[2:2+crypto.BLOCK]
+            counter = crypto.decrypt(seq, key, iv).split(b'\x00', 1)[0]
+        else:
+            seq = sync[2:]
+            counter = bytes([_a ^ _b for _a, _b in zip(seq, key)])
         return int.from_bytes(counter, 'big')
     return None
 

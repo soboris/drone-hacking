@@ -25,7 +25,8 @@ class Bin(object):
             packet = Packet.reassembly(self.getFragments())
             if packet:
                 self.clearBin()
-            return packet.bytes()
+                return packet.bytes()
+            return packet
         except:
             self.clearBin()
             raise Exception("ERROR")

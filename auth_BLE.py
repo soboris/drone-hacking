@@ -33,14 +33,14 @@ ble = bluetooth.BLE()
 p = ble_simple_peripheral.BLESimplePeripheral(ble,name='pyDrone')
 
 def authProtoHdlr(recvData):
-    if bytearray(recvData) == b'Hello':
+    if bytearray(recvData) == auth.getHelloMsg():
         global authenticated
         authenticated = False
         global authData
         authData = auth.authReq()
         p.send(authData)
         print("Received Hello Message")
-    if recvData[0] == 255: # 0xff to indicate authentication
+    if auth.isAuthCLA(recvData):
         global bin
         bin.putFragment(recvData)
         try:
@@ -51,6 +51,7 @@ def authProtoHdlr(recvData):
                     counter, syncData = auth.syncCounter()
                     print("sending syncData")
                     p.send(syncData)
+                    # Do not use with BLE
                     '''
                     syncPacket = Packet(syncData)
                     global syncFragments
@@ -71,11 +72,14 @@ def authProtoHdlr(recvData):
 def on_rx(text):
     print("received data")
     print(binascii.hexlify(text))
+    # Malformed probing packet to trigger exception that allows data to be sent, weird bug to be investigated.
+    p.send(b'\x00')
 
-    if not authenticated:
+    if not authenticated or bytearray(text) == auth.getHelloMsg():
         authProtoHdlr(text)
         return
 
+    # Do not use with BLE
     '''
     if bytearray(text) == b'ack':
         global syncFragments
@@ -138,7 +142,7 @@ def on_rx(text):
                 state_buf[i*2+j] = int((states[i]+32768)/256)
             else:
                 state_buf[i*2+j] = int((states[i]+32768)%256)
-                
+
     p.send(bytes(state_buf)) # send back flight attitude data
 
 p.on_write(on_rx)

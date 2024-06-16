@@ -3,6 +3,7 @@ import uos
 import crypto
 import hmac
 
+HELLO = b'Hello'
 CLA = b'\xff'
 INS = {'req':b'\x01','res':b'\x02','sync':b'\x03'}
 SHA = 256
@@ -84,3 +85,12 @@ def chkIntegrity(payload, counter=None):
     if payload[len(msg):] == binascii.unhexlify(digest):
         return True
     return False
+
+def isAuthCLA(data):
+    return data[0] == int.from_bytes(CLA, 'big')
+
+def isAuthReq(data):
+    return data[1] == int.from_bytes(INS['req'], 'big')
+
+def getHelloMsg():
+    return HELLO

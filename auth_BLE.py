@@ -51,7 +51,7 @@ def authProtoHdlr(recvData):
                     counter, syncData = auth.syncCounter()
                     print("sending syncData")
                     p.send(syncData)
-                    # Do not use with BLE
+                    # Slow operations
                     '''
                     syncPacket = Packet(syncData)
                     global syncFragments
@@ -72,14 +72,14 @@ def authProtoHdlr(recvData):
 def on_rx(text):
     print("received data")
     print(binascii.hexlify(text))
-    # Malformed probing packet to trigger exception that allows data to be sent, weird bug to be investigated.
+    # Dummy data to trigger exception that allows data to be sent, weird bug to be investigated.
     p.send(b'\x00')
 
     if not authenticated or bytearray(text) == auth.getHelloMsg():
         authProtoHdlr(text)
         return
 
-    # Do not use with BLE
+    # Slow operations
     '''
     if bytearray(text) == b'ack':
         global syncFragments

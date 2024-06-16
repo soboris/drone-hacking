@@ -360,7 +360,7 @@ def ble_connect(name):
             try:
                 state_buf = [None]*9
 
-                for i in range(9):                    
+                for i in range(9):
                         state_buf[i] = v[i*2]*256+v[i*2+1] - 32768
 
                 l.printStr('ROL: '+str('%.2f'%(state_buf[0]/100))+'  ',10,10,color=BLACK,size=2)
@@ -373,10 +373,10 @@ def ble_connect(name):
                 l.printStr('THR: '+str(state_buf[6]*2-100)+'   ',130,140,color=BLUE,size=2)
 
                 l.printStr('ALT: ' + str('%.2f'%(state_buf[8]/100))+' M   ',10,180,color=DEEPGREEN,size=2)
-                    
+
                 if state_buf[7] > 310 :
                     l.printStr('BAT: '+str('%.2f'%(state_buf[7]/100))+' V      ',10,210,color=DEEPGREEN,size=2)
-                    
+
                 else:
                     l.printStr('BAT: '+str('%.2f'%(state_buf[7]/100))+' V (LOW)',10,210,color=RED,size=2)
             except:

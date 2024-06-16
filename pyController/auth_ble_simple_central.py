@@ -308,11 +308,11 @@ def ble_connect(name):
     print("Connected")
     global authenticated
     authenticated = False
-    central.write(b'Hello')
+    central.write(auth.getHelloMsg())
 
     def authProtoHdlr(recvData):
-        if recvData[0] == 255: # 0xff to indicate authentication
-            if recvData[1] == 1: # auth request
+        if auth.isAuthCLA(recvData):
+            if auth.isAuthReq(recvData):
                 authData = auth.authRes(recvData)
                 if authData:
                     print("sending authData")

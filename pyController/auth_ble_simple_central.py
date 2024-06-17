@@ -417,10 +417,10 @@ def ble_connect(name):
                 if counter == 2**(auth.getCtrSize()*8) - 1:
                     counter = 0
                 counter += 1
-        except Exception as e:
+        except:
             print("TX failed")
         time.sleep_ms(400 if with_response else 50)
-        
+
     print("Disconnected")
     macs = []
     macs_str = []

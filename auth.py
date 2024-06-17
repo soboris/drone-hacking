@@ -8,7 +8,7 @@ CLA = b'\xff'
 INS = {'req':b'\x01','res':b'\x02','sync':b'\x03'}
 SHA = 256
 
-counter_size = 4
+counter_size = 1
 
 class Token(object):
     def __init__(self, size=16):
@@ -94,3 +94,6 @@ def isAuthReq(data):
 
 def getHelloMsg():
     return HELLO
+
+def getCtrSize():
+    return counter_size

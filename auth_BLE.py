@@ -2,12 +2,14 @@ import bluetooth,ble_simple_peripheral,time
 import drone
 import os
 import binascii
+import crypto
 import auth
 from fragproc import Packet
 from fragbin import Bin
 
 f = open('blackbox', 'w')
 
+counter = 0
 bin = Bin()
 
 # Headless mode
@@ -92,6 +94,16 @@ def on_rx(text):
     if text[0] == 222: # 0xde to disconnect all connected central
         p.disconnect_all()
         return
+
+    global counter
+    key = crypto.getKey()
+    ctr = bytes([_a ^ _b for _a, _b in zip(text[0 - auth.getCtrSize():], key)])
+    diff = int.from_bytes(ctr, 'big') - counter
+    if diff < 0 or diff > 1:
+        return
+    if counter == 2**(auth.getCtrSize()*8) - 1:
+        counter = 0
+    counter += 1
 
     control_data = [None]*4
     

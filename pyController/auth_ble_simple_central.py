@@ -1,5 +1,6 @@
 # Find and connect to a peripheral running UART service (e.g. ble_simple_peripheral.py)
 
+import crypto
 import auth
 import binascii
 import bluetooth
@@ -66,6 +67,7 @@ select = 0
 
 device_name = ''
 
+counter = 0
 bin = Bin()
 
 class BLESimpleCentral:
@@ -408,8 +410,14 @@ def ble_connect(name):
             # print("NEW RIGHT-left-right", a[3])
             # print("NEW RIGHT-up-down", a[4])
             if authenticated:
-                central.write(bytes(a), with_response)
-        except:
+                global counter
+                key = crypto.getKey()
+                ctr = bytes([_a ^ _b for _a, _b in zip(bytes([counter]), key)])
+                central.write(bytes(a) + ctr, with_response)
+                if counter == 2**(auth.getCtrSize()*8) - 1:
+                    counter = 0
+                counter += 1
+        except Exception as e:
             print("TX failed")
         time.sleep_ms(400 if with_response else 50)
         

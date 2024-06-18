@@ -1,4 +1,4 @@
-import bluetooth,ble_simple_peripheral,time
+import bluetooth,auth_ble_simple_peripheral,time
 import drone
 import os
 import binascii
@@ -32,7 +32,16 @@ while True:
 
 ble = bluetooth.BLE()
 
-p = ble_simple_peripheral.BLESimplePeripheral(ble,name='pyDrone')
+p = auth_ble_simple_peripheral.BLESimplePeripheral(ble,name='pyDrone')
+e = auth_ble_simple_peripheral.Event()
+
+def callback(status):
+    if status == e.disconnect:
+        global authenticated
+        authenticated = False
+        print("Reset authentication status")
+
+p.registerCallback(callback)
 
 def authProtoHdlr(recvData):
     if bytearray(recvData) == auth.getHelloMsg():

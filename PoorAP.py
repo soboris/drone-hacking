@@ -25,6 +25,8 @@ while True:
         break
     
     time.sleep_ms(100)
+    # Remove before flight :P
+    break
 
 def startAP():
     ap_if = network.WLAN(network.AP_IF)
@@ -99,7 +101,7 @@ def socket_fun(c):
         c.send(bytes(state_buf)) # send back flight attitude data
 
     except OSError:
-        print("error receiving data")
+        print("Error receiving data")
         pass
 
 while True:

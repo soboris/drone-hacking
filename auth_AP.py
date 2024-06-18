@@ -137,7 +137,7 @@ def socket_fun(c):
         c.send(bytes(state_buf)) # send back flight attitude data
 
     except OSError:
-        print("error receiving data")
+        print("Error receiving data")
         pass
 
 while True:

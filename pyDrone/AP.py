@@ -6,6 +6,7 @@ import binascii
 import time
 from machine import Timer
 
+psk = 'TrustNo1'
 port = 2390
 
 f = open('blackbox', 'w')
@@ -29,7 +30,7 @@ while True:
 def startAP():
     ap_if = network.WLAN(network.AP_IF)
     ap_if.active(True)
-    ap_if.config(essid='pyDrone', authmode=0)
+    ap_if.config(essid='pyDrone', authmode=network.AUTH_WPA_WPA2_PSK, password=psk)
 
     print(ap_if.ifconfig())
 
@@ -62,7 +63,7 @@ def socket_fun(t):
                 
             else:
                 control_data[i] = text[i+1] - 155
-        
+
         # Debug only
         print('control:', control_data)
 
@@ -72,14 +73,14 @@ def socket_fun(t):
         if text[5] == 24: # Button Y pressed
             print('Y')
             d.take_off(distance = 120)
-            
+
         if text[5] == 72: # Button A pressed
             print('A')
             d.landing()
 
         if text[5] == 40: # Button B pressed
             print('B')
-            
+
         if text[5] == 136: # Button X pressed
             print('X')
             d.stop()

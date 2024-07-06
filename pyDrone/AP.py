@@ -16,7 +16,7 @@ f = open('blackbox', 'w')
 d = drone.DRONE(flightmode = 0, debug = 1)
 
 while True:
-	# Debug only
+    # Debug only
     print(d.read_cal_data())
 
     # Debug only

@@ -1,4 +1,5 @@
 import drone
+import machine
 import os
 import network
 import socket
@@ -52,6 +53,11 @@ def socket_fun(t):
     try:
         text = c.recv(128)
 
+        if len(text) == 0:
+            print("SOS: lost control and self-destructing")
+            d.stop()
+            machine.reset()
+
         control_data = [None]*4
 
         for i in range(4):
@@ -97,7 +103,7 @@ def socket_fun(t):
                     
         c.send(bytes(state_buf)) # send back flight attitude data
 
-    except OSError:
+    except:
         pass
 
 t = Timer(1)

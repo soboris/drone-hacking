@@ -5,6 +5,7 @@ import network
 import socket
 import binascii
 import time
+import pyDrone_name as pyDrone
 from machine import Timer
 
 psk = 'TrustNo1'
@@ -31,7 +32,7 @@ while True:
 def startAP():
     ap_if = network.WLAN(network.AP_IF)
     ap_if.active(True)
-    ap_if.config(essid='pyDrone', authmode=network.AUTH_WPA_WPA2_PSK, password=psk)
+    ap_if.config(essid=pyDrone.getName(), authmode=network.AUTH_WPA_WPA2_PSK, password=psk)
 
     print(ap_if.ifconfig())
 

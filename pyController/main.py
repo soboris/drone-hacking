@@ -1,5 +1,6 @@
 import game,tftlcd,controller,time,os
 import ble_simple_central,test
+import pyDrone_name as pyDrone
 from machine import Timer
 
 WHITE = (255,255,255)
@@ -92,7 +93,7 @@ while True:
         if item == 2: # pyDrone
             if key(6) == 32: # Start button
                 while True:
-                    ble_simple_central.ble_connect('pyDrone')
+                    ble_simple_central.ble_connect(pyDrone.getName())
             
             if key(5) == 6: # Left button
                 l.Picture(0, 0, 'picture/pyCar.jpg')                

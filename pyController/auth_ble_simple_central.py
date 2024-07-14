@@ -10,6 +10,7 @@ import time
 import micropython
 
 import binascii,tftlcd,controller
+import pyDrone_name as pyDrone
 
 from ble_advertising import decode_services, decode_name
 
@@ -216,7 +217,7 @@ class BLESimpleCentral:
         elif event == _IRQ_GATTC_CHARACTERISTIC_DONE:
             if device_name == 'pyCar':
                 l.Picture(0, 0, 'picture/Car.jpg')
-            elif device_name == 'pyDrone':
+            elif device_name == pyDrone.getName():
                 print("pyDrone characteristic")
             else:
                 l.fill(WHITE)
@@ -358,7 +359,7 @@ def ble_connect(name):
 
         print("RX", len(v))
 
-        if device_name =='pyDrone':
+        if device_name == pyDrone.getName():
             try:
                 state_buf = [None]*9
 

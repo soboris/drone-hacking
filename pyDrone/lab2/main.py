@@ -4,6 +4,7 @@ import os
 import binascii
 import crypto
 import auth
+import pyDrone_name as pyDrone
 from fragproc import Packet
 from fragbin import Bin
 
@@ -32,7 +33,7 @@ while True:
 
 ble = bluetooth.BLE()
 
-p = auth_ble_simple_peripheral.BLESimplePeripheral(ble,name='pyDrone')
+p = auth_ble_simple_peripheral.BLESimplePeripheral(ble,name=pyDrone.getName())
 e = auth_ble_simple_peripheral.Event()
 
 def callback(status):

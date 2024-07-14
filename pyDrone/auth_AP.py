@@ -7,6 +7,7 @@ import network
 import socket
 import binascii
 import time
+import pyDrone_name as pyDrone
 from machine import Timer
 
 port = 2390
@@ -35,7 +36,7 @@ while True:
 def startAP():
     ap_if = network.WLAN(network.AP_IF)
     ap_if.active(True)
-    ap_if.config(essid='pyDrone', authmode=0)
+    ap_if.config(essid=pyDrone.getName(), authmode=0)
 
     print(ap_if.ifconfig())
 

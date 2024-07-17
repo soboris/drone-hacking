@@ -64,7 +64,7 @@ def ble():
                     key = k
                     counter = i
                     while True:
-                        if counter == n -1:
+                        if counter == n - 1:
                             counter = 0
                         counter += 1
                         xored = [_a ^ _b for _a, _b in zip(counter.to_bytes(), key.to_bytes())][0]

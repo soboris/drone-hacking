@@ -39,8 +39,9 @@ e = auth_ble_simple_peripheral.Event()
 def callback(status):
     if status == e.disconnect:
         global authenticated
-        authenticated = False
-        print("Reset authentication status")
+        if not p.is_connected():
+            authenticated = False
+            print("Reset authentication status")
 
 p.registerCallback(callback)
 

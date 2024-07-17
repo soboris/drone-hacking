@@ -3,7 +3,7 @@ import re
 
 regex = r"b\'([0-9A-Fa-f]{18})\'"
 n = 256
-sensitivity = 2
+tolerance = 2
 
 def guess(series):
     prev = None
@@ -11,7 +11,7 @@ def guess(series):
         if prev is None:
             prev = x
             continue
-        if x < prev or x - prev > sensitivity:
+        if x < prev or x - prev > tolerance:
             return False
         prev = x
     return True
@@ -41,7 +41,7 @@ def main():
         except IOError:
             print("Cannot open file")
     else:
-        "Program argument: <captured data file>"
+        print("Program argument: <captured data file>")
 
 if __name__ == "__main__":
     main()

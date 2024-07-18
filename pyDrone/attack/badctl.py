@@ -11,6 +11,8 @@ address = "C608FC48-9501-7C72-E76C-2E8CC58B448B" # Change this to your drone's B
 host = "192.168.4.1" # Change this to your drone's WiFi AP server address
 port = 2390 # Change this to your drone's WiFi AP server port
 
+retry = 5
+
 def ble():
     protocol_data = [b'\x01\x6f\x6f\x6f\x6f\x18', b'\x01\x6f\x6f\x6f\x6f\x48']
 
@@ -40,7 +42,7 @@ def ble():
                 continue
             uart = connection[UARTService]
             for entry in protocol_data:
-                for i in range(5):
+                for i in range(retry):
                     uart.write(entry)
                     time.sleep(0.5)
             break

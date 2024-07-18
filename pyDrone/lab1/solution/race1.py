@@ -6,6 +6,7 @@ from adafruit_ble.services.nordic import UARTService
 DEVICE_NAME = "pyDrone"
 address = "C608FC48-9501-7C72-E76C-2E8CC58B448B" # Change this to your drone's BLE address
 n = 256
+retry = 1
 
 def scan():
     ble = BLERadio()
@@ -34,7 +35,7 @@ def send(ble, data):
                 continue
             uart = connection[UARTService]
             for entry in data:
-                for i in range(1):
+                for i in range(retry):
                     uart.write(entry)
                     time.sleep(0.1)
             break
